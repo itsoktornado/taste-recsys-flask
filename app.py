@@ -4,6 +4,7 @@ import re
 import random
 from bs4 import BeautifulSoup
 import requests
+import numpy as np
 
 from src.system.taste_recsys import runRecsys, get_name_from_index, get_url_from_index
 from src.system.taste_profile import getTasteProfile, getCosineSimilarity
@@ -93,29 +94,36 @@ def testRecsys(index):
     
     mainName = get_name_from_index(index)
     mainScore = getTasteProfile(index)
-    main = [mainName, mainScore]
+    mainImage = getImageUrl(index)
+    main = [mainName, mainScore, mainImage]
 
-    topListItem = []
-    randomListItem = []
-    randNumArray = random.sample(range(961), 1)
+    recommendedItem = []
+    randomItem = []
+    randNum = random.randint(0, 961)
 
     itemIndex = topList[0]
     itemName = get_name_from_index(itemIndex)
     itemUrl = get_url_from_index(itemIndex)
-    topListItem.append([itemName, itemUrl])
+    itemImage = getImageUrl(itemIndex)
+    recommendedItem.append([itemName, itemUrl, itemImage])
 
-    for itemIndex in randNumArray:
-        itemName = get_name_from_index(itemIndex)
-        itemUrl = get_url_from_index(itemIndex)
-        randomListItem.append([itemName, itemUrl])
+    
+    randomItemName = get_name_from_index(randNum)
+    randomItemUrl = get_url_from_index(randNum)
+    randomItemImage = getImageUrl(randNum)
+    randomItem.append([randomItemName, randomItemUrl, randomItemImage])
 
-    randomAB = [topListItem, randomListItem]
+    randomAB = [recommendedItem, randomItem]
     randOrder = random.sample(range(2), 2)
     print(randOrder)
 
+    # Clean up for horrible list management
+    item1 = randomAB[randOrder[0]][0]
+    item2 = randomAB[randOrder[1]][0]
+
     return render_template("recsys_testing.html", 
-                           topListItem1 = randomAB[randOrder[0]], 
-                           topListItem2 = randomAB[randOrder[1]],
+                           item1 = item1, 
+                           item2 = item2,
                            main = main)
 
 @app.route('/image/')

@@ -12,6 +12,7 @@ ignored_list = [
     'houseofnasheats.com',
     'feelgoodfoodie.net',
     'twopeasandtheirpod.com',
+    'indianveggiedelight.com',
 ]
 
 def getImageUrl(index):
@@ -38,4 +39,4 @@ def getImageUrlText(name):
             print(url)
             return url[-1]
 
-print(getImageUrlText("Skillet Apples with Cinnamon"))
+print(getImageUrlText("Mango-Peach Smoothie"))
