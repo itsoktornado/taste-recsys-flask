@@ -1,0 +1,141 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* {
+  box-sizing: border-box;
+}
+
+/* Create two equal columns that floats next to each other */
+.column {
+  float: left;
+  width: 50%;
+  padding: 10px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+</style>
+</head>
+<body>
+
+<h2>Recommended recipes for {{main[0]}}</h2>
+<h4>Salt score: {{ main[1][0] }}</h4>
+<h4>Sweet score: {{ main[1][1] }}</h4>
+<h4>Bitter score: {{ main[1][2] }}</h4>
+<h4>Umami score: {{ main[1][3] }}</h4>
+<h4>Richness score: {{ main[1][4] }}</h4>
+
+
+<div class="row">
+  <div class="column" style="background-color:#eee;">
+    <h2>List A</h2>
+      {% for i in topListItem1 %}
+          {{ loop.index }}. {{i[0]}} <br>
+          Recipe URL: <a href="{{i[1]}}">Here</a> <br>
+      {% endfor %}
+  </div>
+  <div class="column" style="background-color:#ddd;">
+    <h2>List B</h2>
+      {% for i in topListItem2 %}
+        {{ loop.index }}. {{i[0]}} <br>
+        Recipe URL: <a href="{{i[1]}}">Here</a> <br>
+      {% endfor %}
+  </div>
+</div>
+
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Two Images with Info Text</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .image-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .image-container .image-info {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .image-container img {
+            max-width: 45%; /* Adjust the width of each image */
+            height: auto; /* Maintain aspect ratio */
+            border-radius: 5px; /* Optional: Rounded corners for images */
+        }
+
+        .image-container .image-info p {
+            margin: 10px 0;
+        }
+
+        .search-container {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .search-button {
+            padding: 10px 20px;
+            margin-left: 10px;
+            background-color: #007bff;
+            color: #fff;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .search-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="image-container">
+        <div class="image-info">
+            <img src="image1.jpg" alt="Image 1">
+            <p>Info text for Image 1.</p>
+        </div>
+        <div class="image-info">
+            <img src="image2.jpg" alt="Image 2">
+            <p>Info text for Image 2.</p>
+        </div>
+    </div>
+
+    <form action="/recsys_testing" method="post">
+      <div class="search-container">
+          <input type="number" class="search-input" id="index" name="index" placeholder="Enter your search term">
+          <button type="submit" class="search-button">Search</button>
+      </div>
+  </form>
+</body>
+</html>
