@@ -71,11 +71,11 @@ def displayRecsys(index):
 @app.route('/recsys_testing/', methods = ['GET','POST'])
 def submitTest():
     if request.method == 'POST':
-        index = request.form['index']
-        print(request)
+        name = request.form['name']
+        index = get_index_from_name(name)
         return redirect(url_for('testRecsys', index = index))
     if request.method == 'GET':
-        return render_template('recsys_testing.html')
+        return render_template('recsys_post_testing.html')
 
 @app.route('/recsys_testing/<int:index>/')
 def testRecsys(index):

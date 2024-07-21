@@ -121,6 +121,11 @@
             background-color: #0056b3;
         }
     </style>
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.js"></script>
+
 </head>
 <body>
     <h1>Choose the item you would like to be recommended</h1>
@@ -141,10 +146,24 @@
     </div>
 
     <form action="/recsys_testing" method="post">
-      <div class="search-container">
-          <input type="number" class="search-input" id="index" name="index" placeholder="Enter your search term">
-          <button type="submit" class="search-button">Search</button>
-      </div>
-  </form>
+        <div class="search-container">
+            <input type="text" class="search-input" id="name" name="name" placeholder="Enter your search term">
+            <button type="submit" class="search-button">Search</button>
+        </div>
+    </form>
 </body>
+
+<script>
+    $(function() {
+        $.ajax({
+            url: '{{ url_for("autocomplete") }}'
+            }).done(function (data){
+                $('#name').autocomplete({
+                    source: data,
+                    minLength: 2
+                });
+            });
+        });
+</script>
+
 </html>

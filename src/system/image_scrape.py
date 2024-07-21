@@ -13,6 +13,7 @@ ignored_list = [
     'feelgoodfoodie.net',
     'twopeasandtheirpod.com',
     'indianveggiedelight.com',
+    'cookteen.com',
 ]
 
 def getImageUrl(index):
@@ -21,7 +22,7 @@ def getImageUrl(index):
     
     while(True):
         if url == [] or any(link in url[-1] for link in ignored_list):
-            url = bing_image_urls(recipe_contents['recipe_name'].values[index], limit = i)
+            url = bing_image_urls(recipe_contents['recipe_name'].values[index] + " allrecipes", limit = i)
             i += 1
         else:
             return url[-1]
@@ -33,10 +34,10 @@ def getImageUrlText(name):
     
     while(True):
         if url == [] or any(link in url[-1] for link in ignored_list):
-            url = bing_image_urls(name, limit = i)
+            url = bing_image_urls(name + " allrecipes", limit = i)
             i += 1
         else:
             print(url)
             return url[-1]
 
-print(getImageUrlText("Mango-Peach Smoothie"))
+print(getImageUrlText("Monte Carlo Cocktail"))
