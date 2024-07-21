@@ -126,33 +126,6 @@ def testRecsys(index):
                            item2 = item2,
                            main = main)
 
-@app.route('/image/')
-def testImage():
-    url = "https://wuthering.gg/characters/encore"
-
-    try:
-        response = requests.get(url)
-        html_content = response.text
-
-        soup = BeautifulSoup(html_content, features="lxml")
-        img_tag = soup.find('img')
-        # img_link = (tree.find('img')[0]).attr['src']
-
-        if img_tag:
-            # Extract the src attribute of the img tag
-            img_link = img_tag.get('src')
-            print("Image URL:", img_link)
-        else:
-            img_link = None
-            print("No image found on the page.")
-
-    except requests.RequestException as e:
-        print("Error fetching page:", e)
-    except AttributeError as e:
-        print("Error parsing HTML:", e)
-
-    return render_template("recsys_image_test.html",
-                           img_link = img_link)
 
 
 
