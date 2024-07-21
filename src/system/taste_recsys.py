@@ -198,8 +198,8 @@ def runRecsys(inputIndex):
   # Input a recipe index
   recipe_index = int(inputIndex)
 
-  top_10_similar_indices = get_top_similar_items(recipe_index, cosine)
-  return str(top_10_similar_indices)
+  top_10_similar_indices = get_top_similar_items(recipe_index, cosine, 10)
+  return top_10_similar_indices.tolist()
 
 ####################
 
@@ -257,10 +257,13 @@ def score_richness(total_fat, cholesterol):
 
   return math.log(total, 10)
 
-def get_top_similar_items(index, cosine, top_k=10):
-  
-  similarity_scores = cosine[index]
-  top_k_similar_indices = similarity_scores.argsort()[::-1][0:top_k + 1]  # Get 11 items
+def get_top_similar_items(index, cosine, top_k = -1):
+  if (top_k == -1):
+    similarity_scores = cosine[index]
+    top_k_similar_indices = similarity_scores.argsort()[::-1]
+  else:
+    similarity_scores = cosine[index]
+    top_k_similar_indices = similarity_scores.argsort()[::-1][0:top_k + 1]  # Get 11 items
 
   return top_k_similar_indices[top_k_similar_indices != index]
 

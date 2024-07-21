@@ -1,13 +1,11 @@
 from flask import Flask, render_template, request, redirect, url_for, Response
-import re
 import random
-from bs4 import BeautifulSoup
 import requests
 import numpy as np
 import json
 
-from src.system.taste_recsys import runRecsys, get_name_from_index, get_url_from_index, get_all_names, get_index_from_name
-from src.system.taste_profile import getTasteProfile, getCosineSimilarity
+from src.system.taste_recsys import runRecsys, get_name_from_index, get_url_from_index, get_all_names, get_index_from_name, get_top_similar_items
+from src.system.taste_profile import getTasteProfile, getCosineSimilarity, getCosineAll
 from src.system.image_scrape import getImageUrl
 
 app = Flask(__name__)
@@ -34,24 +32,25 @@ def submit():
 
 @app.route('/recsys/<int:index>/')
 def displayRecsys(index):
-    stringList = runRecsys(index)
-    stringList = re.sub("[\[\]]", "", stringList)
+    # stringList = runRecsys(index)
+    # # print(stringList)
+    # stringList = re.sub("[\[\]]", "", stringList)
     
-    topList = stringList.split(" ")
+    # topList = stringList.split(" ")
+    topList = runRecsys(index)
 
-    i = 0
-    while i < len(topList):
-        if topList[i] == '':
-            topList.pop(i)
-        else:
-            topList[i] = int(topList[i])
-            i += 1
+    # i = 0
+    # while i < len(topList):
+    #     if topList[i] == '':
+    #         topList.pop(i)
+    #     else:
+    #         topList[i] = int(topList[i])
+    #         i += 1
     
     mainName = get_name_from_index(index)
     mainScore = getTasteProfile(index)
     mainImage = getImageUrl(index)
     main = [mainName, mainScore, mainImage]
-    print(main[2])
 
     topListItem = []
 
@@ -79,18 +78,19 @@ def submitTest():
 
 @app.route('/recsys_testing/<int:index>/')
 def testRecsys(index):
-    stringList = runRecsys(index)
-    stringList = re.sub("[\[\]]", "", stringList)
+    # stringList = runRecsys(index)
+    # stringList = re.sub("[\[\]]", "", stringList)
     
-    topList = stringList.split(" ")
+    # topList = stringList.split(" ")
 
-    i = 0
-    while i < len(topList):
-        if topList[i] == '':
-            topList.pop(i)
-        else:
-            topList[i] = int(topList[i])
-            i += 1
+    # i = 0
+    # while i < len(topList):
+    #     if topList[i] == '':
+    #         topList.pop(i)
+    #     else:
+    #         topList[i] = int(topList[i])
+    #         i += 1
+    topList = runRecsys(index)
     
     mainName = get_name_from_index(index)
     mainScore = getTasteProfile(index)
@@ -130,7 +130,21 @@ def testRecsys(index):
                            item2 = item2,
                            main = main)
 
+# @app.route('/recsys_testing_single/', methods = ['GET','POST'])
+# def submitTestSingle():
+#     if request.method == 'POST':
+#         name = request.form['name']
+#         index = get_index_from_name(name)
+#         return redirect(url_for('testRecsys', index = index))
+#     if request.method == 'GET':
+#         return render_template('recsys_post_testing_single.html')
 
+# @app.route('/recsys_testing_single/<int:index>')
+# def testRecsysSingle(index):
+#     cosine = getCosineAll()
+#     listSimilarity = get_top_similar_items(index, cosine)
+#     print(listSimilarity.tolist())
+#     return listSimilarity.tolist()
 
 
 # @app.route('/test/')
