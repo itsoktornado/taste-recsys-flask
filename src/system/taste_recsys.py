@@ -199,8 +199,7 @@ def runRecsys(inputIndex):
   recipe_index = int(inputIndex)
 
   top_10_similar_indices = get_top_similar_items(recipe_index, cosine, 10)
-  return top_10_similar_indices.tolist()
-
+  return top_10_similar_indices
 ####################
 
 def removePercentage(string):
@@ -265,7 +264,7 @@ def get_top_similar_items(index, cosine, top_k = -1):
     similarity_scores = cosine[index]
     top_k_similar_indices = similarity_scores.argsort()[::-1][0:top_k + 1]  # Get 11 items
 
-  return top_k_similar_indices[top_k_similar_indices != index]
+  return top_k_similar_indices[top_k_similar_indices != index].tolist()
 
 def get_name_from_index(index):
   return recipes['recipe_name'][index]
