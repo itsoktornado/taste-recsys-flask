@@ -120,6 +120,10 @@
         .search-button:hover {
             background-color: #0056b3;
         }
+
+        .hidden {
+        display: none;
+    }
     </style>
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
@@ -134,6 +138,7 @@
         <div class="image-info">
             <img src="{{ item1[2] }}" alt="Image A">
             <p>Item A: {{ item1[0] }}</p>
+            <p class="hiddenText hidden"><b>Similarity Score: {{ item1[3] }}</b></p>
         </div>
         <div class="image-info">
             <img src="{{ main[2] }}" alt="Image Main">
@@ -142,8 +147,11 @@
         <div class="image-info">
             <img src="{{ item2[2] }}" alt="Image B">
             <p>Item B: {{ item2[0] }}</p>
+            <p class="hiddenText hidden"><b>Similarity Score: {{ item2[3] }}</b></p>
         </div>
     </div>
+
+    <button id="toggleButton">Show Hidden Text</button>
 
     <form action="/recsys_testing" method="post">
         <div class="search-container">
@@ -164,6 +172,23 @@
                 });
             });
         });
+</script>
+
+<script>
+    document.getElementById('toggleButton').addEventListener('click', function() {
+        var hiddenTexts = document.querySelectorAll('.hiddenText');
+        var buttonText = this.textContent === 'Show Similarity Score' ? 'Hide Similarity Score' : 'Show Similarity Score';
+
+        hiddenTexts.forEach(function(hiddenText) {
+            if (hiddenText.style.display === 'none') {
+                hiddenText.style.display = 'block';
+            } else {
+                hiddenText.style.display = 'none';
+            }
+        });
+
+        this.textContent = buttonText; // Change button text
+    });
 </script>
 
 </html>

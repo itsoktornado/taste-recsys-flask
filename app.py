@@ -105,13 +105,17 @@ def testRecsys(index):
     itemName = get_name_from_index(itemIndex)
     itemUrl = get_url_from_index(itemIndex)
     itemImage = getImageUrl(itemIndex)
-    recommendedItem.append([itemName, itemUrl, itemImage])
+    itemCosineWithMain = getCosineSimilarity(index, itemIndex)
+    itemCosineWithMain = (itemCosineWithMain * 100).round(2)
+    recommendedItem.append([itemName, itemUrl, itemImage, itemCosineWithMain])
 
     
     randomItemName = get_name_from_index(randNum)
     randomItemUrl = get_url_from_index(randNum)
     randomItemImage = getImageUrl(randNum)
-    randomItem.append([randomItemName, randomItemUrl, randomItemImage])
+    randomItemCosineWithMain = getCosineSimilarity(index, randNum)
+    randomItemCosineWithMain = (randomItemCosineWithMain * 100).round(2)
+    randomItem.append([randomItemName, randomItemUrl, randomItemImage, randomItemCosineWithMain])
 
     randomAB = [recommendedItem, randomItem]
     randOrder = random.sample(range(2), 2)
@@ -131,8 +135,8 @@ def testRecsys(index):
 
 # @app.route('/test/')
 # def testHtml():
-#     form = SearchForm(request.form)
-#     return render_template("test.html", form=form)
+    
+#     return render_template("test.html")
 
 
 
