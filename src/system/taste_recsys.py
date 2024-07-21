@@ -267,5 +267,12 @@ def get_top_similar_items(index, cosine, top_k=10):
 def get_name_from_index(index):
   return recipes['recipe_name'][index]
 
+def get_index_from_name(name):
+  index = recipes.index[recipes['recipe_name'] == name].tolist()
+  return index[0]
+
 def get_url_from_index(index):
   return recipes['url'][index]
+
+def get_all_names():
+  return recipes['recipe_name'].tolist()

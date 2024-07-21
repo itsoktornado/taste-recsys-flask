@@ -1,32 +1,32 @@
-from markupsafe import escape
-from flask import Flask, abort, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, Response
 import re
 import random
 from bs4 import BeautifulSoup
 import requests
 import numpy as np
+import json
 
-from src.system.taste_recsys import runRecsys, get_name_from_index, get_url_from_index
+from src.system.taste_recsys import runRecsys, get_name_from_index, get_url_from_index, get_all_names, get_index_from_name
 from src.system.taste_profile import getTasteProfile, getCosineSimilarity
 from src.system.image_scrape import getImageUrl
 
 app = Flask(__name__)
 
-# @app.route('/')
-# @app.route('/index/')
-# def hello():
-#     return '<h1>Hello, World!</h1>'
+RECIPE_LIST = get_all_names()
 
 @app.route('/')
 def index():
     return "Hello world"
 
-# Define a route for handling form submissions
+@app.route('/_autocomplete', methods=['GET'])
+def autocomplete():
+    return Response(json.dumps(RECIPE_LIST), mimetype='application/json')
+
 @app.route('/recsys/', methods = ['GET','POST'])
 def submit():
     if request.method == 'POST':
-        index = request.form['index']
-        print(request)
+        name = request.form['name']
+        index = get_index_from_name(name)
         return redirect(url_for('displayRecsys', index = index))
     if request.method == 'GET':
         return render_template('recsys_post.html')
@@ -154,9 +154,14 @@ def testImage():
     return render_template("recsys_image_test.html",
                            img_link = img_link)
 
-@app.route('/test/')
-def testHTML():
-    return render_template("test.html")
+
+
+# @app.route('/test/')
+# def testHtml():
+#     form = SearchForm(request.form)
+#     return render_template("test.html", form=form)
+
+
 
 if __name__ == '__main__':
     app.run(debug = True)
