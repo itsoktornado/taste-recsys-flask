@@ -130,21 +130,50 @@ def testRecsys(index):
                            item2 = item2,
                            main = main)
 
-# @app.route('/recsys_testing_single/', methods = ['GET','POST'])
-# def submitTestSingle():
-#     if request.method == 'POST':
-#         name = request.form['name']
-#         index = get_index_from_name(name)
-#         return redirect(url_for('testRecsys', index = index))
-#     if request.method == 'GET':
-#         return render_template('recsys_post_testing_single.html')
+@app.route('/recsys_testing_single/', methods = ['GET','POST'])
+def submitTestSingle():
+    if request.method == 'POST':
+        name = request.form['name']
+        index = get_index_from_name(name)
+        return redirect(url_for('testRecsysSingle', index = index))
+    if request.method == 'GET':
+        return render_template('recsys_post_testing_single.html')
 
-# @app.route('/recsys_testing_single/<int:index>')
-# def testRecsysSingle(index):
-#     cosine = getCosineAll()
-#     listSimilarity = get_top_similar_items(index, cosine)
-#     print(listSimilarity.tolist())
-#     return listSimilarity.tolist()
+@app.route('/recsys_testing_single/<int:index>')
+def testRecsysSingle(index):
+    cosine = getCosineAll()
+    listSimilarity = get_top_similar_items(index, cosine)
+    
+    rateOfError = 6
+    rate = random.randint(1,10)
+    randNum = -1
+    randomItem = []
+
+    if (rate > rateOfError):
+        randNum = random.randint(0, 9)
+
+        while listSimilarity[randNum] == index:
+            randNum = random.randint(0, 99)
+    else:
+        randNum = random.randint(0, 961)
+
+        while listSimilarity[randNum] == index:
+            randNum = random.randint(0, 961)
+        
+    randIndex = listSimilarity[randNum]
+    randomItemName = get_name_from_index(randIndex)
+    randomItemUrl = get_url_from_index(randIndex)
+    randomItemImage = getImageUrl(randIndex)
+    randomItemCosineWithMain = getCosineSimilarity(index, randIndex)
+    randomItemCosineWithMain = (randomItemCosineWithMain * 100).round(2)
+    randomItem.append(randomItemName)
+    randomItem.append(randomItemUrl)
+    randomItem.append(randomItemImage)
+    randomItem.append(randomItemCosineWithMain)
+    rank = randNum + 1
+    randomItem.append(rank)
+
+    return render_template('recsys_testing_single.html', item = randomItem)
 
 
 # @app.route('/test/')

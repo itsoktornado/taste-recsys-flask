@@ -16,3 +16,5 @@ def getTasteProfile(index):
 def getCosineSimilarity(index1, index2):
   return cosine[index1][index2]
 
+def getCosineAll():
+  return cosine

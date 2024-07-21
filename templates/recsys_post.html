@@ -50,6 +50,12 @@
     .search-button:hover {
         background-color: #0056b3;
     }
+
+    .title {
+        position: absolute;
+        top: 0;
+        left: 5;
+    }
 </style>
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
@@ -58,6 +64,8 @@
 
 </head>
 <body>
+    <h1 class="title">Choose your favorite recipe to start!</h1>
+
     <form action="/recsys" method="post">
         <div class="search-container">
             <input type="text" class="search-input" id="name" name="name" placeholder="Enter your search term">

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Two Images with Info Text</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .image-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .image-container .image-info {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .image-container img {
+            width: auto;
+            max-width: 350px;
+            height: 350px;
+            /* max-height: 20%; */
+            border-radius: 5px; /* Optional: Rounded corners for images */
+        }
+
+        .image-container .image-info p {
+            max-width: 350px;
+            margin: 10px 0;
+        }
+
+        .search-container {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .search-button {
+            padding: 10px 20px;
+            margin-left: 10px;
+            background-color: #007bff;
+            color: #fff;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .search-button:hover {
+            background-color: #0056b3;
+        }
+
+        .hidden {
+        display: none;
+    }
+    </style>
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.js"></script>
+
+</head>
+<body>
+    <h1>How does your recipe match this recommendation?</h1>
+
+    <div class="image-container">
+        <div class="image-info">
+            <img src="{{ item[2] }}" alt="Image">
+            <p>Item A: {{ item[0] }}</p>
+            <p class="hiddenText hidden"><b>Similarity Score: {{ item[3] }}</b></p>
+            <p class="hiddenText hidden"><b>Rank: {{ item[4] }}/961</b></p>
+        </div>
+    </div>
+
+    <button id="toggleButton">Show Hidden Text</button>
+
+    <form action="/recsys_testing_single" method="post">
+        <div class="search-container">
+            <input type="text" class="search-input" id="name" name="name" placeholder="Enter your search term">
+            <button type="submit" class="search-button">Search</button>
+        </div>
+    </form>
+</body>
+
+<script>
+    $(function() {
+        $.ajax({
+            url: '{{ url_for("autocomplete") }}'
+            }).done(function (data){
+                $('#name').autocomplete({
+                    source: data,
+                    minLength: 2
+                });
+            });
+        });
+</script>
+
+<script>
+    document.getElementById('toggleButton').addEventListener('click', function() {
+        var hiddenTexts = document.querySelectorAll('.hiddenText');
+        var buttonText = this.textContent === 'Show Similarity Score' ? 'Hide Similarity Score' : 'Show Similarity Score';
+
+        hiddenTexts.forEach(function(hiddenText) {
+            if (hiddenText.style.display === 'none') {
+                hiddenText.style.display = 'block';
+            } else {
+                hiddenText.style.display = 'none';
+            }
+        });
+
+        this.textContent = buttonText; // Change button text
+    });
+</script>
+
+</html>
