@@ -12,14 +12,12 @@ app = Flask(__name__)
 
 RECIPE_LIST = get_all_names()
 
-@app.route('/')
-def index():
-    return "Hello world"
 
 @app.route('/_autocomplete', methods=['GET'])
 def autocomplete():
     return Response(json.dumps(RECIPE_LIST), mimetype='application/json')
 
+@app.route('/', methods = ['GET','POST'])
 @app.route('/recsys/', methods = ['GET','POST'])
 def submit():
     if request.method == 'POST':
@@ -144,7 +142,7 @@ def testRecsysSingle(index):
     cosine = getCosineAll()
     listSimilarity = get_top_similar_items(index, cosine)
     
-    rateOfError = 6
+    rateOfError = 5
     rate = random.randint(1,10)
     randNum = -1
     randomItem = []

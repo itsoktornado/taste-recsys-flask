@@ -122,7 +122,7 @@
             {% for item in topListItem %}
                 <div class="recipe-item">
                     <p>
-                        {{ loop.index }}. {{ item[0] }} <br>
+                        <b>{{ loop.index }}. {{ item[0] }} - {{ item[3] }}% match</b> <br>
 
                         <div class="recipe-info">
                             <h2>Taste Profile</h2>
@@ -132,7 +132,6 @@
                                 Bitter score: {{ item[2][2] }} <br>
                                 Umami score: {{ item[2][3] }} <br>
                                 Richness score: {{ item[2][4] }} <br>
-                                <b>Similarity score: {{ item[3] }}% </b><br>
                             </p>
                             <img src="{{item[4]}}" alt="Recipe Image" class="recipe-image">
                         </div>
