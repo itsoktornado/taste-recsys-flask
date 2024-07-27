@@ -48,7 +48,8 @@ def displayRecsys(index):
     mainName = get_name_from_index(index)
     mainScore = getTasteProfile(index)
     mainImage = getImageUrl(index)
-    main = [mainName, mainScore, mainImage]
+    mainUrl = get_url_from_index(index)
+    main = [mainName, mainScore, mainImage, mainUrl]
 
     topListItem = []
 
